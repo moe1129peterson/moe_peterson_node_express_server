@@ -1,11 +1,43 @@
 const express = require('express'); 
-const cors = require ('cors'); 
+
 const bodyParser = require ('body-parser'); 
+const mongoose = require ('mongoose'); 
+const {mongoUser,mongoPass} = require('./config')
+const cors = require ('cors'); 
+const corsOptions ={
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+ }
 
-const app = express();
-const PORT = 5000;
+const uri = 'mongodb+srv://moe_user:0MkotR5x2GCsdDEq@cluster0.riadj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
-app.use (cors())
+//Routes 
+const postsRoutes = require ('./routes/api/posts');
+const app = express(); 
+
+//Body Parser Middleware 
+app.use (express.json()); 
+
+//connect to MongoDB
+mongoose.connect (uri,{
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+})
+
+.then(() => console.log ('Connected MongoDB Sucessfully'))
+
+.catch(err => console.log(err));
+
+app.get('/', (req, res) => {
+    res.send ('Hello from the other side')
+}); 
+
+//User routes
+
+app.use('/api/posts', postsRoutes); 
+const PORT = process.env.PORT || 5000; 
+app.listen (PORT, () => console.log (`Server runs at ${PORT}`))
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -25,12 +57,12 @@ let todos = [
         completed: false
     }
 ];
-app.get ('/api/todos', (req, res) =>{
+
+app.get ('/api/posts', (req, res) =>{
     res.json (todos)
 }); 
 
-app.post('/api/todos', (req, res)=> {
-    console.log('Post', req.body)
+app.post('/api/posts', (req, res)=> {
 
     let todoAdd = {
         id: todos.length+1, 
@@ -45,9 +77,6 @@ app.post('/api/todos', (req, res)=> {
 
 
 
-app.get ('/', (req, res) =>{
-    res.send ('Hello from Homepage');
-}); 
 
 app.put('/api/todos', (req, res) => {
     res.json(todos)
@@ -58,6 +87,4 @@ app.delete ('/api/todos', (req, res) => {
     res.json(todos)
 })
 
-app.listen(PORT, () => {
-    console.log(`Sever running on port: http://localhost:${PORT}`)
-})
+
