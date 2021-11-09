@@ -3,7 +3,6 @@ const router = express.Router();
 
 const Todos  = require ('../../models/Todos'); 
 
-
 router.get('/', async (req, res) => {
     try{
         const post = await Todos.find(); 

@@ -1,3 +1,9 @@
+const dotenv = require('dotenv');
+dotenv.config();
 module.exports = {
-    MONGO_URI: 'mongodb+srv://moe_user:0MkotR5x2GCsdDEq@cluster0.riadj.mongodb.net/Cluster0?retryWrites=true&w=majority'
+    endpoint: process.env.API_URL,
+    masterKey: process.env.API_KEY,
+    port: process.env.PORT,
+    mongoUser: process.env.MONGO_USER,
+    mongoPass: process.env.MONGO_PASS,
 };
