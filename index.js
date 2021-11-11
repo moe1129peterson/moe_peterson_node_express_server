@@ -31,10 +31,7 @@ app.get('/', (req, res) => {
 //User routes
 
 app.use('/api/posts', postsRoutes); 
-const PORT = process.env.PORT || 5000; 
-app.listen (PORT, () => console.log (`Server runs at ${PORT}`))
-
-
+app.listen(process.env.PORT || 5000) 
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
