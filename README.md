@@ -2,7 +2,7 @@
 
 create .env file with:
 NODE_ENV=development
-PORT=3000
+PORT=5000
 MONGO_URI=(Add your custom mongodb connection string here. Example: mongodb+srv://...)
 MONGO_USER
 MONGO_PASS
